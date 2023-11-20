@@ -29,7 +29,7 @@ app.get("/api/notes", function (req, res) {
           title: req.body.title,
           text: req.body.text,
         };
-  
+        console.log(newNote)
         noteData.push(newNote);
         writeData(noteData);
   
