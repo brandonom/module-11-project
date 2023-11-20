@@ -60,3 +60,29 @@ app.get("/api/notes", function (req, res) {
         res.status(500).send("Internal Server Error");
       });
   });
+
+  app.get("/notes", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/notes.html"), function (err) {
+      if (err) {
+        console.error("Error sending file:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        console.log("File sent successfully");
+      }
+    });
+  });
+
+  app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"), function (err) {
+      if (err) {
+        console.error("Error sending file:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        console.log("File sent successfully");
+      }
+    });
+  });
+  
+  app.listen(PORT, function () {
+    console.log(`Server listening on PORT ${PORT}`);
+  });
