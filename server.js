@@ -20,3 +20,43 @@ app.get("/api/notes", function (req, res) {
         res.status(500).send("Internal Server Error");
       });
   });
+
+  app.post("/api/notes", function (req, res) {
+    getData()
+      .then((noteData) => {
+        const newNote = {
+          id: generateId(),
+          title: req.body.title,
+          text: req.body.text,
+        };
+  
+        noteData.push(newNote);
+        writeData(noteData);
+  
+        res.json({ message: "Database Updated" });
+      })
+      .catch((err) => {
+        console.error("Error getting data:", err);
+        res.status(500).send("Internal Server Error");
+      });
+  });
+
+  app.delete("/api/notes/:id", function (req, res) {
+    getData()
+      .then((notes) => {
+        const noteId = req.params.id;
+        const noteIndex = notes.findIndex((note) => note.id === noteId);
+  
+        if (noteIndex !== -1) {
+          notes.splice(noteIndex, 1);
+          writeData(notes);
+          res.json({ message: "Database Updated" });
+        } else {
+          res.json({ error: "Note was not found" });
+        }
+      })
+      .catch((err) => {
+        console.error("Error getting data:", err);
+        res.status(500).send("Internal Server Error");
+      });
+  });
